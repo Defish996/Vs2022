@@ -207,20 +207,37 @@ public:
 
 int main()
 {
-    Solution solution;
-    //vector<int> nums = {1,0,2,3,0,4,5,0};
-    // vector<int> nums = { 8,4,5,0,0,0,0,7 };
-     vector<int> nums = { 1,0,7,2,4,3,1,0,2,6 };
-    for(auto& e : nums)
+    //Solution solution;
+    ////vector<int> nums = {1,0,2,3,0,4,5,0};
+    //// vector<int> nums = { 8,4,5,0,0,0,0,7 };
+    // vector<int> nums = { 1,0,7,2,4,3,1,0,2,6 };
+    //for(auto& e : nums)
+    //{
+    //    cout << e << " ";
+    //}
+    //cout << endl;
+    //solution.duplicateZeros(nums);
+    //for(auto& e : nums)
+    //{
+    //    cout << e << " ";
+    //}
+
+
+    int x = 0;
+    int y = 1;
+    int z = -1;
+    if (y + z == -x)
     {
-        cout << e << " ";
+        cout << "true" << endl;
     }
-    cout << endl;
-    solution.duplicateZeros(nums);
-    for(auto& e : nums)
-    {
-        cout << e << " ";
-    }
+
+
+
+
+
+
+
+
 
 
     return 0;
