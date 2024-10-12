@@ -258,33 +258,52 @@
 //    return 0;
 //}
 
+//#include <iostream>
+//#include <vector>
+//
+//int main() {
+//    int total = 1000000; // 总金额
+//    const int maxCountPerValue = 5; // 每种金额的最大份数
+//    const int base = 7; // 基础值
+//
+//    // 计算所有可能的7的幂
+//    std::vector<int> powers;
+//    for (int power = 1; power <= total; power *= base) {
+//        powers.push_back(power);
+//    }
+//
+//    int count = 0; // 分成的总份数
+//
+//    // 从大到小遍历每个7的幂
+//    for (auto it = powers.rbegin(); it != powers.rend(); ++it) {
+//        int currentPower = *it;
+//        // 尽量多分配当前面额的数量
+//        for (int i = 0; i < maxCountPerValue && total >= currentPower; ++i, --total, ++count) {
+//            // 减少总金额并增加计数
+//        }
+//    }
+//
+//    // 输出结果
+//    std::cout << count << std::endl;
+//
+//    return 0;
+//}
+
+
 #include <iostream>
 #include <vector>
+#include <string>
+using namespace std;
+int main()
+{
+	string s = "sda dsad dds";
+	const char BlankSpace = ' ';
+	int pos = s.size() - 1;
+	pos = s.rfind(BlankSpace, pos);
+	cout << pos-- << endl;
+	pos = s.rfind(BlankSpace, pos);
+	cout << pos;
 
-int main() {
-    int total = 1000000; // 总金额
-    const int maxCountPerValue = 5; // 每种金额的最大份数
-    const int base = 7; // 基础值
 
-    // 计算所有可能的7的幂
-    std::vector<int> powers;
-    for (int power = 1; power <= total; power *= base) {
-        powers.push_back(power);
-    }
-
-    int count = 0; // 分成的总份数
-
-    // 从大到小遍历每个7的幂
-    for (auto it = powers.rbegin(); it != powers.rend(); ++it) {
-        int currentPower = *it;
-        // 尽量多分配当前面额的数量
-        for (int i = 0; i < maxCountPerValue && total >= currentPower; ++i, --total, ++count) {
-            // 减少总金额并增加计数
-        }
-    }
-
-    // 输出结果
-    std::cout << count << std::endl;
-
-    return 0;
+	return 0;
 }
