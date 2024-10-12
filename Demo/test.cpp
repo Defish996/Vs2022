@@ -289,20 +289,58 @@
 //    return 0;
 //}
 
+//
+//#include <iostream>
+//#include <vector>
+//#include <string>
+//using namespace std;
+//int main()
+//{
+// // 字符串查找的用法和截取的用法
+//	string s = "sda dsad dds";
+//	const char BlankSpace = ' ';
+//	int pos = s.size() - 1;
+//	pos = s.rfind(BlankSpace, pos);
+//	cout << pos-- << endl;
+//	pos = s.rfind(BlankSpace, pos);
+//	cout << pos;
+//
+//
+//	return 0;
+//}
+#define _CRT_SECURE_NO_WARNINGS 1	
 
+// 蓝桥杯5.充电能量
+// 问题就是秒数之差*一个单位时间内的值, 做题太少, 思考不够, 拿题就上, 虽然也能出来, 但是效率不高, 而且逻辑繁琐, 容易出错
+// 思考之后的方法才是万全, 但是好的思考是建立在右一定做题基础之上的, 所以目前的多做题才是关键  
 #include <iostream>
-#include <vector>
 #include <string>
+#include <cstdio>
 using namespace std;
 int main()
 {
-	string s = "sda dsad dds";
-	const char BlankSpace = ' ';
-	int pos = s.size() - 1;
-	pos = s.rfind(BlankSpace, pos);
-	cout << pos-- << endl;
-	pos = s.rfind(BlankSpace, pos);
-	cout << pos;
+	struct Sum {
+		int UI = 0;
+		int Second = 0;
+	};
+	int n = 0, ans = 0;
+	cin >> n;
+
+	Sum sum[n];
+	int hour = 0, minute = 0, second = 0;
+	int U = 0, I = 0;
+	for (int i = 0; i < n; ++i)
+	{
+		scanf("%d:%d:%d", &hour, &minute, &second);
+		cin >> U >> I;
+		sum[i].UI = U * I;
+		sum[i].Second = hour * 3600 + minute * 60 + second;
+	}
+	for (int i = 1; i < n; ++i)
+	{
+		ans += (sum[i].Second - sum[i - 1].Second) * sum[i - 1].UI;
+	}
+	cout << ans;
 
 
 	return 0;
