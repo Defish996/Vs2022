@@ -152,93 +152,139 @@
 //
 //    return 0;
 //}
+//#include <iostream>
+//#include <vector>
+//#include <string>
+//
+//using namespace std;
+//class Solution {
+//public:
+//    void duplicateZeros(vector<int>& arr) {// [1,0,7,2,4,3,1,0,2,6]//[1,0,2,3,0,4,5,0]// 1,2,3,4,0 // 8,4,5,0,0,0,0,7 // 
+//        int n = arr.size();
+//        int dest = -1, cur = 0;
+//        while (cur < n)
+//        {
+//            if (arr[cur] == 0)
+//            {
+//                dest += 2;
+//                if (dest >= n - 1)// 是0, 刚刚好或者是超了一位
+//                {
+//                    break;
+//                }
+//                ++cur;
+//                continue;
+//            }
+//            dest++;
+//            if (dest == n - 1) break;// 刚刚好
+//            cur++;
+//        }// 找最后一个数的循环中, 存在三种情况, 
+//         //数组尾是0, 是0且刚好, 是0但是超了一位, 
+//         //不是0, 刚刚好
+//        if (cur == dest + 1) return;
+//        if (dest == n)// 尾数是0, 且超了1位
+//        {
+//            dest--;
+//            arr[dest--] = 0;
+//            cur--;
+//        }
+//        while (cur >= 0)
+//        {
+//            if (arr[cur] == 0)
+//            {
+//                arr[dest] = arr[cur];
+//                arr[--dest] = arr[cur];
+//            }
+//            else
+//            {
+//                arr[dest] = arr[cur];
+//            }
+//            --dest;
+//            --cur;
+//        }
+//
+//    }
+//};
+//
+//int main()
+//{
+//    //Solution solution;
+//    ////vector<int> nums = {1,0,2,3,0,4,5,0};
+//    //// vector<int> nums = { 8,4,5,0,0,0,0,7 };
+//    // vector<int> nums = { 1,0,7,2,4,3,1,0,2,6 };
+//    //for(auto& e : nums)
+//    //{
+//    //    cout << e << " ";
+//    //}
+//    //cout << endl;
+//    //solution.duplicateZeros(nums);
+//    //for(auto& e : nums)
+//    //{
+//    //    cout << e << " ";
+//    //}
+//
+//
+//    int x = 0;
+//    int y = 1;
+//    int z = -1;
+//    if (y + z == -x)
+//    {
+//        cout << "true" << endl;
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    return 0;
+//}
+
+//#include<iostream>
+//#include<cstdio>
+//int main()
+//{
+//    int n = 1000000;
+//    int count = 0;
+//    while (n)
+//    {
+//        count += n % 7;
+//        n /= 7;
+//    }
+//    std::printf("%d", count);
+//    return 0;
+//}
+
 #include <iostream>
 #include <vector>
-#include <string>
 
-using namespace std;
-class Solution {
-public:
-    void duplicateZeros(vector<int>& arr) {// [1,0,7,2,4,3,1,0,2,6]//[1,0,2,3,0,4,5,0]// 1,2,3,4,0 // 8,4,5,0,0,0,0,7 // 
-        int n = arr.size();
-        int dest = -1, cur = 0;
-        while (cur < n)
-        {
-            if (arr[cur] == 0)
-            {
-                dest += 2;
-                if (dest >= n - 1)// 是0, 刚刚好或者是超了一位
-                {
-                    break;
-                }
-                ++cur;
-                continue;
-            }
-            dest++;
-            if (dest == n - 1) break;// 刚刚好
-            cur++;
-        }// 找最后一个数的循环中, 存在三种情况, 
-         //数组尾是0, 是0且刚好, 是0但是超了一位, 
-         //不是0, 刚刚好
-        if (cur == dest + 1) return;
-        if (dest == n)// 尾数是0, 且超了1位
-        {
-            dest--;
-            arr[dest--] = 0;
-            cur--;
-        }
-        while (cur >= 0)
-        {
-            if (arr[cur] == 0)
-            {
-                arr[dest] = arr[cur];
-                arr[--dest] = arr[cur];
-            }
-            else
-            {
-                arr[dest] = arr[cur];
-            }
-            --dest;
-            --cur;
-        }
+int main() {
+    int total = 1000000; // 总金额
+    const int maxCountPerValue = 5; // 每种金额的最大份数
+    const int base = 7; // 基础值
 
-    }
-};
-
-int main()
-{
-    //Solution solution;
-    ////vector<int> nums = {1,0,2,3,0,4,5,0};
-    //// vector<int> nums = { 8,4,5,0,0,0,0,7 };
-    // vector<int> nums = { 1,0,7,2,4,3,1,0,2,6 };
-    //for(auto& e : nums)
-    //{
-    //    cout << e << " ";
-    //}
-    //cout << endl;
-    //solution.duplicateZeros(nums);
-    //for(auto& e : nums)
-    //{
-    //    cout << e << " ";
-    //}
-
-
-    int x = 0;
-    int y = 1;
-    int z = -1;
-    if (y + z == -x)
-    {
-        cout << "true" << endl;
+    // 计算所有可能的7的幂
+    std::vector<int> powers;
+    for (int power = 1; power <= total; power *= base) {
+        powers.push_back(power);
     }
 
+    int count = 0; // 分成的总份数
 
+    // 从大到小遍历每个7的幂
+    for (auto it = powers.rbegin(); it != powers.rend(); ++it) {
+        int currentPower = *it;
+        // 尽量多分配当前面额的数量
+        for (int i = 0; i < maxCountPerValue && total >= currentPower; ++i, --total, ++count) {
+            // 减少总金额并增加计数
+        }
+    }
 
-
-
-
-
-
-
+    // 输出结果
+    std::cout << count << std::endl;
 
     return 0;
 }
