@@ -359,27 +359,60 @@
 //	return 0;
 //}
 
-// 6. 元音大写 
+//// 6. 元音大写 
+//#include <iostream>
+//#include <string>
+//using namespace std;
+//int main()
+//{
+//    int hash[26] = { 0 };
+//    hash['a' - 'a'] = 1;
+//    hash['e' - 'a'] = 1;
+//    hash['i' - 'a'] = 1;
+//    hash['o' - 'a'] = 1;
+//    hash['u' - 'a'] = 1;
+//    string s;
+//    cin >> s;
+//    for(auto & e : s)
+//    {
+//        if(hash[e - 'a'] == 1)
+//        {
+//            e -= 32;
+//        }
+//    }
+//    cout << s;
+//    return 0;
+//}
+
+
 #include <iostream>
-#include <string>
+#include <vector>
+#include <cstdlib>
 using namespace std;
+int func(vector<int>& vec)
+{
+	int ans = 0;
+	int n = vec.size();
+	for (int i = 0; i < n - 2; ++i)
+	{
+		if (vec[i] == 0)
+		{
+			vec[i] ^= 1;
+			vec[i + 1] ^= 1;
+			vec[i + 2] ^= 1;
+			++ans;
+		}
+	}
+	if (vec[n - 1] == 0 || vec[n - 2] == 0)
+	{
+		return -1;
+	}
+	return ans;
+}
 int main()
 {
-    int hash[26] = { 0 };
-    hash['a' - 'a'] = 1;
-    hash['e' - 'a'] = 1;
-    hash['i' - 'a'] = 1;
-    hash['o' - 'a'] = 1;
-    hash['u' - 'a'] = 1;
-    string s;
-    cin >> s;
-    for(auto & e : s)
-    {
-        if(hash[e - 'a'] == 1)
-        {
-            e -= 32;
-        }
-    }
-    cout << s;
-    return 0;
+	vector<int> vec = { 0,1,1,1 }; // 1 0 0 0 0...1 1 1 1 0
+	cout << func(vec);
+
+	return 0;
 }
