@@ -420,6 +420,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 using namespace std;
 int func(vector<int>& vec)
 {
@@ -441,8 +442,8 @@ int func(vector<int>& vec)
 int main()
 {
 	vector<int> vec = { 0,1,1,0,1 };
-	cout << func(vec);
-
+	// cout << func(vec);
+	// printf("%d", 3);
 
 
 
