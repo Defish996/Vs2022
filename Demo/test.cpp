@@ -420,34 +420,147 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
 #include <cstdlib>
 using namespace std;
-int func(vector<int>& vec)
-{
-	int ans = 0;
-	for (auto& x : vec)
-	{
-		// if (x == 0 && 0 == ans % 2) // ans % 2 , 若ans为偶数, 则取模之后为0, 否则为1, 偶数次则不进行操作
-		// 简化之后就是 值为0, 且为偶数次操作时(偶数等于没操作, 当成是第一次操作)
-		// 这是第一种, 另一种是:
-		// 当x为1时, 且ans % 2为1(奇数)时, 此时为需要变化的情况, 说明是奇次的变化使得原先的1变成了0, 所以需要进行变化
-		// if(x == 1 && 1 == ans & 2)
-		if(x == ans % 2)
-		{
-			++ans;
-		}
-	}
-	return ans;
-}
+//int func(vector<int>& vec)
+//{
+//	int ans = 0;
+//	for (auto& x : vec)
+//	{
+//		// if (x == 0 && 0 == ans % 2) // ans % 2 , 若ans为偶数, 则取模之后为0, 否则为1, 偶数次则不进行操作
+//		// 简化之后就是 值为0, 且为偶数次操作时(偶数等于没操作, 当成是第一次操作)
+//		// 这是第一种, 另一种是:
+//		// 当x为1时, 且ans % 2为1(奇数)时, 此时为需要变化的情况, 说明是奇次的变化使得原先的1变成了0, 所以需要进行变化
+//		// if(x == 1 && 1 == ans & 2)
+//		if(x == ans % 2)
+//		{
+//			++ans;
+//		}
+//	}
+//	return ans;
+//}
+
+//class Solution {
+//public:
+//    vector<int> findSubstring(string s, vector<string>& words) 
+//    {
+//        vector<int> ans;
+//        cout << "111";
+//        return ans;
+//    }
+//};
+// 
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> ans;
+        int sSize = s.size();
+        int size = words.size();
+        int n = words[0].size();
+        if (sSize < (size * n))
+        {
+            return {};
+        }
+        unordered_map<string, int> hash1, hash2;
+        for(auto & word : words)
+        {
+            hash1[word]++;
+        }
+        for(int k = 0; k < n; k++)
+        {
+            for(int left = 0, right = 0 + k, count = 0; right < sSize - k; right += n)
+            {
+                string tmp; 
+                int i = 0;
+                while(i < n && (right + i < sSize))// 截取单个单词长度的单词
+                {
+                    tmp += s[right + i++];
+                }
+                {
+                    ++hash2[tmp];
+                }
+                if (hash2[tmp] <= hash1[tmp])
+                {
+                    ++count;
+                    if (count == 1)
+                    {
+                        left = right;
+                    }
+                }
+                if((right - left + 1) > (size * n))
+                {
+                    int j = 0;
+                    string st;
+                    while(j < n && (left + j < sSize))
+                    {
+                        st += s[left + j++];
+                    } 
+                    left += n;
+
+                    if (hash2[st] <= hash1[st] && count != 0)
+                    {
+                        --count;
+                    }
+                    if (hash2[st] != 0)
+                    {
+                        --hash2[st];
+                    }
+                }
+                if (count == size)
+                {
+                    ans.push_back(left);
+                }
+            }
+            hash2.clear();
+        }
+        return ans;
+    }
+};
+//vector<int> func()
+//{
+//    vector<int> vec;
+//    cout << "11111";
+//    return vec;
+//}
 int main()
 {
-	vector<int> vec = { 0,1,1,0,1 };
-	// cout << func(vec);
-	// printf("%d", 3);
-
-
+    string s = "b";
+    vector<string> vec = { "bbb","bbb"};
+    Solution obj;
+    vector<int> ans = obj.findSubstring(s, vec);
+    for (auto& e : ans)
+    {
+        cout << e << " ";
+    }
+     //vector<int> vec = { 0,1,1,0,1 };
+     //func();
+     //printf("%d", 3);
 
 
 
 	return 0;
 }
+
+
+//int main()
+//{
+//	vector<char> vec = { 'a', 'b', 'c', 'a', 'd', 'f'};
+//	unordered_map<char, int> map1;
+//	for (auto& e : vec)
+//	{
+//		if (map1[e] != 0)
+//		{
+//			map1[e]--;
+//			cout << map1.size() << endl;
+//		}
+//		map1[e]++;
+//
+//	}
+//
+//
+//
+//
+//	return 0;
+//}
