@@ -565,29 +565,115 @@ using namespace std;
 //	return 0;
 //}
 
+//
+//
+//int main()
+//{
+//	vector<int> month = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+//	int w = 6;// 这一年的第一天为周六
+//	int ans = 0;
+//	for (int i = 0; i < 12; ++i)
+//	{
+//		for (int j = 1; j <= month[i]; ++j)
+//		{
+//			if (w == 6 || w == 0 || j == 1 || j == 11 || j == 21 || j == 31)
+//			{
+//				++ans;
+//			}
+//			w = (w + 1) % 7;// 该天结束之后, 也要对周几进行++, 不能超过7, 所以进行取模
+//		}
+//	}
+//	cout << ans;
+//
+//
+//
+//
+//
+//	return 0;
+//}
 
 
+//// 高精度
+//int main()
+//{
+//	string s1((size_t)100000, 0);// 输入只能选择使用字符数组, 数字数组不行
+//	string s2((size_t)100000, 0);// 输入只能选择使用字符数组, 数字数组不行
+//	vector<int> num1((size_t)100000, 0);
+//	vector<int> num2((size_t)100000, 0);
+//	vector<int> num3((size_t)100000, 0);// 存放结果
+//	cin >> s1;
+//	cin >> s2;
+//	int len1 = s1.size();// 计算位数
+//	int len2 = s2.size();
+//	for (int i = 0; i < len1; ++i)// 按照习惯, 我们是高位在下标小的位置, 所以在进行字符转数字的时候, 也进行翻转
+//	{
+//		num1[i] = s1[len1 - 1 - i] - '0';
+//	}
+//	for (int i = 0; i < len2; ++i)
+//	{
+//		num2[i] = s2[len2 - 1 - i] - '0';
+//	}
+//	// cout << num1.size();
+//	//for (auto& e : num1) // 打印时需要注意, 要使用字符长度的大小作为上界, 如果使用数组长度作为上界, 因为vector实现size和string实现的size不同, 要当实际容量作为使用, 可以使用string的
+//	//{
+//	//	cout << e << " ";
+//	//}
+//
+//	//num1.resize(len1);// 调整大小, 以便使用(虽然这边可能用不到)
+//	//num2.resize(len2);
+//	// 调整完大小之后, 还要注意
+//
+//	int len = len1 > len2 ? len1 : len2;
+//	int tmp = 0;
+//	for (int i = 0; i < len; ++i)// 逆序存储的还有一个好处就是进位可以放在后面
+//	{
+//		num3[i] = num1[i] + num2[i] + tmp;
+//		/*if (num3[i] > 9)
+//		{
+//			tmp = num3[i] / 10;
+//			num3[i] %= 10;
+//		}*/
+//		tmp = num3[i] / 10;// 可以不需要这个if, 因为不管如何都不影响结果
+//		num3[i] %= 10;// 已经存好进位, 所以只需要把当前值取模放入当前为即可
+//	}
+//	if (tmp > 0)
+//	{
+//		num3[len++] = tmp;
+//	}
+//	for (int i = len - 1; i >= 0; --i)
+//	{
+//		cout << num3[i];
+//	}
+//
+//	return 0;
+//}
+
+#include <numeric>
+#include <algorithm>
+// 优化版本
 int main()
 {
-	vector<int> month = { 31,28,31,30,31,30,31,31,30,31,30,31 };
-	int w = 6;// 这一年的第一天为周六
-	int ans = 0;
-	for (int i = 0; i < 12; ++i)
+	string s1, s2;
+	cin >> s1 >> s2;
+	size_t len = max(s1.size(), s2.size());
+	vector<int> num1(len, 0), num2(len, 0);// 适合两个数据源大小差不多大的情况, 若存在一方数据源过大, 就会造成内存浪费
+	transform(s1.rbegin(), s1.rend(), num1.begin(), [](const char& c) {return c - '0'; });
+	transform(s2.rbegin(), s2.rend(), num2.begin(), [](const char& c) {return c - '0'; });
+	
+	int carry = 0;
+	for (int i = 0; i < len; ++i)
 	{
-		for (int j = 1; j <= month[i]; ++j)
-		{
-			if (w == 6 || w == 0 || j == 1 || j == 11 || j == 21 || j == 31)
-			{
-				++ans;
-			}
-			w = (w + 1) % 7;// 该天结束之后, 也要对周几进行++, 不能超过7, 所以进行取模
-		}
+		num1[i] = num1[i] + num2[i] + carry;
+		carry = num1[i] / 10;
+		num1[i] %= 10;
 	}
-	cout << ans;
-
-
-
-
-
+	if (carry > 0)
+	{
+		num1.push_back(carry);
+	}
+	for (auto it = num1.rbegin(); it < num1.rend(); ++it)
+	{
+		cout << *it;
+	}
 	return 0;
 }
