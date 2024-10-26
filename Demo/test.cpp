@@ -418,12 +418,7 @@
 //}
 
 
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <cstdlib>
-using namespace std;
+
 //int func(vector<int>& vec)
 //{
 //	int ans = 0;
@@ -647,33 +642,132 @@ using namespace std;
 //
 //	return 0;
 //}
+//
 
+//// 优化版本
+//int main()
+//{
+//	string s1, s2;
+//	cin >> s1 >> s2;
+//	size_t len = max(s1.size(), s2.size());
+//	vector<int> num1(len, 0), num2(len, 0);// 适合两个数据源大小差不多大的情况, 若存在一方数据源过大, 就会造成内存浪费
+//	transform(s1.rbegin(), s1.rend(), num1.begin(), [](const char& c) {return c - '0'; });
+//	transform(s2.rbegin(), s2.rend(), num2.begin(), [](const char& c) {return c - '0'; });
+//	
+//	int carry = 0;
+//	for (int i = 0; i < len; ++i)
+//	{
+//		num1[i] = num1[i] + num2[i] + carry;
+//		carry = num1[i] / 10;
+//		num1[i] %= 10;
+//	}
+//	if (carry > 0)
+//	{
+//		num1.push_back(carry);
+//	}
+//	for (auto it = num1.rbegin(); it < num1.rend(); ++it)
+//	{
+//		cout << *it;
+//	}
+//	return 0;
+//}
+
+
+//
+//int main()
+//{
+//	string s1, s2;
+//	cin >> s1 >> s2;
+//	size_t len = max(s1.size(), s2.size());// 长度
+//	vector<int> num1(len, 0), num2(len, 0);// 
+//	transform(s1.rbegin(), s1.rend(), num1.rbegin(), [](const char& c) {return c - '0'; });// 默认第一个为减数
+//	transform(s2.rbegin(), s2.rend(), num2.rbegin(), [](const char& c) {return c - '0'; });// 第二个为被减数
+//
+//	int carry = 0;
+//	for (int i = 0; i < len; ++i)
+//	{
+//		if (num1[i] > num2[i])
+//		{
+//			num 
+//		}
+//	}
+//
+//
+//
+//	return 0;
+//}
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <cstdlib>
 #include <numeric>
 #include <algorithm>
-// 优化版本
+using namespace std;
+class Solution {
+public:
+    bool exist(vector<vector<char>>& grid, vector<vector<int>>& visited, int i, int j, string& s, int k)
+    {
+        if (grid[i][j] != s[k]) {
+            return false;
+        } else if (k == s.length() - 1) // 到了当前元素, 且一样, 就已经能表明是出口, 直接返回结果. 递归出口处就已经表明, 只有到了结果处才会返回, 所以一直递归进最深处, 
+        {
+            return true;
+        }
+        visited[i][j] = true;// 当前元素已遍历, 进行更改 
+        vector<pair<int, int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};// 方向
+        bool result = false;// 用于返回结果
+        for (const auto& dir : directions)// 遍历四个方向
+        {
+            int newi = i + dir.first;
+            int newj = j + dir.second;
+            if (newi >= 0 && newi <= grid.size() && newj >= 0 && newj <= grid[0].size())// 保证方向不越界
+            {
+                if (visited[newi][newj] == false)// 且若当前节点未进行遍历, 则进行处理
+                {
+                    bool flag = exist(grid, visited, i, j, s, k + 1);
+                    if (flag)// 在回溯时, 结果有两种, 当得到为真的返回值, 意味着已到达终点处, 到了结果该记录的位置, 
+                    {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }
+        visited[i][j] = false;// 四个方向遍历结束之后未找到满足的target的值(有可能是还未到该下标对应的访问时间, 就已经进行了访问, 所以进行复原), 则将这个已访问的节点改为未访问, 表示需从其他路径来对该节点进行遍历
+        return result;
+    }
+    bool wordPuzzle(vector<vector<char>>& grid, string target) {
+        int h = grid.size(), w = grid[0].size();
+        vector<vector<int>> visited(h, vector<int>(w));// 用于存放已遍历过的元素
+        for (int i = 0; i < h; i++)// 遍历每个元素
+        {
+            for (int j = 0; j < w; j++)
+            {
+                bool flag = exist(grid, visited, i, j, target, 0);// 看这个迷宫内的元素是否满足题意
+                if (flag) {
+                    return true;
+                }
+            }
+        }
+
+    }
+};
+
 int main()
 {
-	string s1, s2;
-	cin >> s1 >> s2;
-	size_t len = max(s1.size(), s2.size());
-	vector<int> num1(len, 0), num2(len, 0);// 适合两个数据源大小差不多大的情况, 若存在一方数据源过大, 就会造成内存浪费
-	transform(s1.rbegin(), s1.rend(), num1.begin(), [](const char& c) {return c - '0'; });
-	transform(s2.rbegin(), s2.rend(), num2.begin(), [](const char& c) {return c - '0'; });
-	
-	int carry = 0;
-	for (int i = 0; i < len; ++i)
-	{
-		num1[i] = num1[i] + num2[i] + carry;
-		carry = num1[i] / 10;
-		num1[i] %= 10;
-	}
-	if (carry > 0)
-	{
-		num1.push_back(carry);
-	}
-	for (auto it = num1.rbegin(); it < num1.rend(); ++it)
-	{
-		cout << *it;
-	}
-	return 0;
+    vector<vector<char>> grid = { 
+        {'A', 'B', 'C', 'E'},
+        {'S', 'F', 'C', 'S'},
+        {'A', 'D', 'E', 'E'}
+    };
+    string target = "ABCCED";
+    Solution s;
+    s.wordPuzzle(grid, target);
+
+
+
+
+    return 0;
 }
