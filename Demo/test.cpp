@@ -704,70 +704,105 @@
 #include <cstdlib>
 #include <numeric>
 #include <algorithm>
+//using namespace std;
+//class Solution {
+//public:
+//    bool exist(vector<vector<char>>& grid, vector<vector<int>>& visited, int i, int j, string& s, int k)
+//    {
+//        if (grid[i][j] != s[k]) {
+//            return false;
+//        } else if (k == s.length() - 1) // 到了当前元素, 且一样, 就已经能表明是出口, 直接返回结果. 递归出口处就已经表明, 只有到了结果处才会返回, 所以一直递归进最深处, 
+//        {
+//            return true;
+//        }
+//        visited[i][j] = true;// 当前元素已遍历, 进行更改 
+//        vector<pair<int, int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};// 方向
+//        bool result = false;// 用于返回结果
+//        for (const auto& dir : directions)// 遍历四个方向
+//        {
+//            int newi = i + dir.first;
+//            int newj = j + dir.second;
+//            if (newi >= 0 && newi <= grid.size() && newj >= 0 && newj <= grid[0].size())// 保证方向不越界
+//            {
+//                if (visited[newi][newj] == false)// 且若当前节点未进行遍历, 则进行处理
+//                {
+//                    bool flag = exist(grid, visited, i, j, s, k + 1);
+//                    if (flag)// 在回溯时, 结果有两种, 当得到为真的返回值, 意味着已到达终点处, 到了结果该记录的位置, 进行记录, 然后跳出循环, 进行当前回溯的返回
+//                    {
+//                        result = true;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        visited[i][j] = false;// 四个方向遍历结束之后未找到满足的target的值(有可能是还未到该下标对应的访问时间, 就已经进行了访问, 所以进行复原), 则将这个已访问的节点改为未访问, 表示需从其他路径来对该节点进行遍历
+//        return result;
+//    }
+//    bool wordPuzzle(vector<vector<char>>& grid, string target) {
+//        int h = grid.size(), w = grid[0].size();
+//        vector<vector<int>> visited(h, vector<int>(w));// 用于存放已遍历过的元素
+//        for (int i = 0; i < h; i++)// 遍历每个元素
+//        {
+//            for (int j = 0; j < w; j++)
+//            {
+//                bool flag = exist(grid, visited, i, j, target, 0);// 看这个迷宫内的元素是否满足题意
+//                if (flag) {
+//                    return true;
+//                }
+//            }
+//        }
+//
+//    }
+//};
+//
+//int main()
+//{
+//    vector<vector<char>> grid = { 
+//        {'A', 'B', 'C', 'E'},
+//        {'S', 'F', 'C', 'S'},
+//        {'A', 'D', 'E', 'E'}
+//    };
+//    string target = "ABCCED";
+//    Solution s;
+//    s.wordPuzzle(grid, target);
+//
+//
+//
+//
+//    return 0;
+//}
+
 using namespace std;
-class Solution {
-public:
-    bool exist(vector<vector<char>>& grid, vector<vector<int>>& visited, int i, int j, string& s, int k)
-    {
-        if (grid[i][j] != s[k]) {
-            return false;
-        } else if (k == s.length() - 1) // 到了当前元素, 且一样, 就已经能表明是出口, 直接返回结果. 递归出口处就已经表明, 只有到了结果处才会返回, 所以一直递归进最深处, 
-        {
-            return true;
-        }
-        visited[i][j] = true;// 当前元素已遍历, 进行更改 
-        vector<pair<int, int>> directions{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};// 方向
-        bool result = false;// 用于返回结果
-        for (const auto& dir : directions)// 遍历四个方向
-        {
-            int newi = i + dir.first;
-            int newj = j + dir.second;
-            if (newi >= 0 && newi <= grid.size() && newj >= 0 && newj <= grid[0].size())// 保证方向不越界
-            {
-                if (visited[newi][newj] == false)// 且若当前节点未进行遍历, 则进行处理
-                {
-                    bool flag = exist(grid, visited, i, j, s, k + 1);
-                    if (flag)// 在回溯时, 结果有两种, 当得到为真的返回值, 意味着已到达终点处, 到了结果该记录的位置, 
-                    {
-                        result = true;
-                        break;
-                    }
-                }
-            }
-        }
-        visited[i][j] = false;// 四个方向遍历结束之后未找到满足的target的值(有可能是还未到该下标对应的访问时间, 就已经进行了访问, 所以进行复原), 则将这个已访问的节点改为未访问, 表示需从其他路径来对该节点进行遍历
-        return result;
-    }
-    bool wordPuzzle(vector<vector<char>>& grid, string target) {
-        int h = grid.size(), w = grid[0].size();
-        vector<vector<int>> visited(h, vector<int>(w));// 用于存放已遍历过的元素
-        for (int i = 0; i < h; i++)// 遍历每个元素
-        {
-            for (int j = 0; j < w; j++)
-            {
-                bool flag = exist(grid, visited, i, j, target, 0);// 看这个迷宫内的元素是否满足题意
-                if (flag) {
-                    return true;
-                }
-            }
-        }
+//int gcd(int a, int b)
+//{
+//	while (b != 0)
+//	{
+//		int t = a % b;
+//		a = b;
+//		b = t;
+//	}
+//	return a;
+//}
 
-    }
-};
-
+// 这段代码还可以使用
+int gcd(int a, int b)
+{
+	return b == 0 ? a : gcd(b, a % b);
+}
 int main()
 {
-    vector<vector<char>> grid = { 
-        {'A', 'B', 'C', 'E'},
-        {'S', 'F', 'C', 'S'},
-        {'A', 'D', 'E', 'E'}
-    };
-    string target = "ABCCED";
-    Solution s;
-    s.wordPuzzle(grid, target);
+	int num = 0;
+	for (int i = 1; i <= 2020; ++i)
+	{
+		if (gcd(i, 1018) == 1)
+		{
+			++num;
+		}
+	}
+	cout << num;
 
 
 
 
-    return 0;
+
 }
