@@ -704,6 +704,8 @@
 #include <cstdlib>
 #include <numeric>
 #include <algorithm>
+#include <functional>
+#include <bitset>
 //using namespace std;
 //class Solution {
 //public:
@@ -783,26 +785,84 @@ using namespace std;
 //	}
 //	return a;
 //}
+//
+//// 这段代码还可以使用
+//int gcd(int a, int b)
+//{
+//	return b == 0 ? a : gcd(b, a % b);
+//}
+//int main()
+//{
+//	int num = 0;
+//	for (int i = 1; i <= 2020; ++i)
+//	{
+//		if (gcd(i, 1018) == 1)
+//		{
+//			++num;
+//		}
+//	}
+//	cout << num;
+//
+//
+//
+//
+//
+//}
 
-// 这段代码还可以使用
-int gcd(int a, int b)
+
+
+int  main()
 {
-	return b == 0 ? a : gcd(b, a % b);
-}
-int main()
-{
-	int num = 0;
-	for (int i = 1; i <= 2020; ++i)
+
+	// 方法1, 回溯暴搜
+	//int n = 0;
+	//cin >> n;
+	//vector<string> ans;
+	//string str;
+
+	//function<void(string&)> dfs = [&](string& str)
+	//	{
+	//		if (str.size() == n)
+	//		{
+	//			ans.push_back(str);
+	//			return;
+	//		}
+	//		if (str.empty() || str.back() == '1')
+	//		{
+	//			str.push_back('0');
+	//			dfs(str);
+	//			str.pop_back();
+	//		}
+	//		str.push_back('1');
+	//		dfs(str);
+	//		str.pop_back();
+	//	};
+	//dfs(str);
+	//for (auto& s : ans)
+	//{
+	//	cout << s << endl;
+	//}
+
+	// 方法2
+	// 位运算
+	vector<string> ans;
+	int n = 0;
+	cin >> n;
+	int mask = (1 << n) - 1;// 构造全1的n位二进制数
+	int x = 1 << n;// 表示2^n
+	for (int i = 0; i < x; ++i)// 在0 ~~ x-1 中筛选
 	{
-		if (gcd(i, 1018) == 1)
+		if (((i >> 1) & i) == 0)// 当前值与右移一位的值进行与运算，如果结果为0，则说明当前值没有连续的1交替出现，符合要求
 		{
-			++num;
+			ans.push_back(bitset<18>(i ^ mask).to_string().substr(18 - n));//取反得到原先的二进制表示，再取子串
 		}
 	}
-	cout << num;
-
-
-
-
-
+	for (auto& x : ans)
+	{
+		cout << x << endl;
+	}
+	
 }
+
+// 
+
