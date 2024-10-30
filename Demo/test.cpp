@@ -809,60 +809,118 @@ using namespace std;
 //
 //}
 
+//
+//
+//int  main()
+//{
+//
+//	// 方法1, 回溯暴搜
+//	//int n = 0;
+//	//cin >> n;
+//	//vector<string> ans;
+//	//string str;
+//
+//	//function<void(string&)> dfs = [&](string& str)
+//	//	{
+//	//		if (str.size() == n)
+//	//		{
+//	//			ans.push_back(str);
+//	//			return;
+//	//		}
+//	//		if (str.empty() || str.back() == '1')
+//	//		{
+//	//			str.push_back('0');
+//	//			dfs(str);
+//	//			str.pop_back();
+//	//		}
+//	//		str.push_back('1');
+//	//		dfs(str);
+//	//		str.pop_back();
+//	//	};
+//	//dfs(str);
+//	//for (auto& s : ans)
+//	//{
+//	//	cout << s << endl;
+//	//}
+//
+//	// 方法2
+//	// 位运算
+//	vector<string> ans;
+//	int n = 0;
+//	cin >> n;
+//	int mask = (1 << n) - 1;// 构造全1的n位二进制数
+//	int x = 1 << n;// 表示2^n
+//	for (int i = 0; i < x; ++i)// 在0 ~~ x-1 中筛选
+//	{
+//		if (((i >> 1) & i) == 0)// 当前值与右移一位的值进行与运算，如果结果为0，则说明当前值没有连续的1交替出现，符合要求
+//		{
+//			ans.push_back(bitset<18>(i ^ mask).to_string().substr(18 - n));//取反得到原先的二进制表示，再取子串
+//		}
+//	}
+//	for (auto& x : ans)
+//	{
+//		cout << x << endl;
+//	}
+//	
+//}
+//
+//// 
+//
 
 
-int  main()
+
+
+int main()
 {
-
-	// 方法1, 回溯暴搜
-	//int n = 0;
-	//cin >> n;
-	//vector<string> ans;
-	//string str;
-
-	//function<void(string&)> dfs = [&](string& str)
-	//	{
-	//		if (str.size() == n)
-	//		{
-	//			ans.push_back(str);
-	//			return;
-	//		}
-	//		if (str.empty() || str.back() == '1')
-	//		{
-	//			str.push_back('0');
-	//			dfs(str);
-	//			str.pop_back();
-	//		}
-	//		str.push_back('1');
-	//		dfs(str);
-	//		str.pop_back();
-	//	};
-	//dfs(str);
-	//for (auto& s : ans)
-	//{
-	//	cout << s << endl;
-	//}
-
-	// 方法2
-	// 位运算
-	vector<string> ans;
-	int n = 0;
-	cin >> n;
-	int mask = (1 << n) - 1;// 构造全1的n位二进制数
-	int x = 1 << n;// 表示2^n
-	for (int i = 0; i < x; ++i)// 在0 ~~ x-1 中筛选
+	string s = "001";
+	int i = 0;
+	for (auto& x : s)
 	{
-		if (((i >> 1) & i) == 0)// 当前值与右移一位的值进行与运算，如果结果为0，则说明当前值没有连续的1交替出现，符合要求
+		if ((x - '0') != 0)
 		{
-			ans.push_back(bitset<18>(i ^ mask).to_string().substr(18 - n));//取反得到原先的二进制表示，再取子串
+			break;
+		}
+		++i;
+	}
+	int flag = 0;
+	if (((s[i] - '0') & 1) != 0)// 为奇数
+	{
+		flag = 1;
+	}
+	for(; i < s.size(); ++i)
+	{
+		if (((s[i] - '0') & 1) == 0 && flag == 1)// 是偶数
+		{
+			flag = 0;
+		}
+		else if(flag == 0)
+		{
+			flag = 1;
+		}
+		else
+		{
+			swap(s[i], s[i - 1]);
 		}
 	}
-	for (auto& x : ans)
-	{
-		cout << x << endl;
-	}
-	
 }
 
-// 
-
+//上述不如题解思路
+{
+	class Solution {
+	public:
+		string getSmallestString(string s) {
+			// 按照题意 最多交换一次, 可以交换次数为0 或者1
+			// 要得到最小字典序, 所以交换的值越左边越好
+			// 得到最小, 所以交换后的值一定比原先的值严格小于, 所以一定是左边大于右边
+			for(int i = 1; i < s.size(); ++i)
+			{
+				if(s[i - 1] > s[i] && s[i - 1] % 2 == s[i] % 2)// 字符串对应的数字奇偶性, 就是ascii的奇偶性
+				{
+					swap(s[i], s[i - 1]);
+					break;
+				}
+			}
+			return s;
+		}
+	};
+}
