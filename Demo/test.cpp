@@ -926,3 +926,51 @@ using namespace std;
 //}
 
 
+class Solution {
+public:
+    vector<int> resultsArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> ans;
+        int left = 0, right = 0;
+        if (k == 1) return nums;
+        while(left <= n - k)
+        {
+            int right_val = nums[right++];//1,2,3,4,3,2,5
+            if(right - left + 1 == k)
+            {
+                int ltmp = left;
+                int rtmp = right;
+                for(;ltmp < rtmp;++ltmp)
+                {
+                    if (nums[ltmp] > nums[ltmp + 1])
+                    {
+                        ans.push_back(-1);
+                        break;
+                    }
+                }
+                if (ltmp == rtmp && nums[rtmp - 1] < nums[rtmp])
+                {
+                    ans.push_back(nums[rtmp]);
+                }
+
+                ++left;
+                right = left;
+            }
+           
+        }
+        return ans;
+    }
+};
+
+int main()
+{
+
+	vector<int> nums = { 1,2,3,4,3,2,5};
+	int k = 3;
+	Solution s;
+	auto ans = s.resultsArray(nums, k);
+	for (auto& x : ans)
+	{
+		cout << x << endl;
+	}
+}
