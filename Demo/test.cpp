@@ -925,52 +925,120 @@ using namespace std;
 //	};
 //}
 
+//
+//class Solution {
+//public:
+//    vector<int> resultsArray(vector<int>& nums, int k) {
+//        int n = nums.size();
+//        vector<int> ans;
+//        int left = 0, right = 0;
+//        if (k == 1) return nums;
+//        while(left <= n - k)
+//        {
+//            int right_val = nums[right++];//1,2,3,4,3,2,5
+//            if(right - left + 1 == k)
+//            {
+//                int ltmp = left;
+//                int rtmp = right;
+//                for(;ltmp < rtmp;++ltmp)
+//                {
+//                    if (nums[ltmp] > nums[ltmp + 1])
+//                    {
+//                        ans.push_back(-1);
+//                        break;
+//                    }
+//                }
+//                if (ltmp == rtmp && nums[rtmp - 1] < nums[rtmp])
+//                {
+//                    ans.push_back(nums[rtmp]);
+//                }
+//
+//                ++left;
+//                right = left;
+//            }
+//           
+//        }
+//        return ans;
+//    }
+//};
+//
+//int main()
+//{
+//
+//	vector<int> nums = { 1,2,3,4,3,2,5};
+//	int k = 3;
+//	Solution s;
+//	auto ans = s.resultsArray(nums, k);
+//	for (auto& x : ans)
+//	{
+//		cout << x << endl;
+//	}
+//}
 
-class Solution {
+
+
+class NeighborSum {
+    vector<vector<int>> _grid;
+    vector<vector<int>> Ad_next = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+    vector<vector<int>> Di_next = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
+
 public:
-    vector<int> resultsArray(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> ans;
-        int left = 0, right = 0;
-        if (k == 1) return nums;
-        while(left <= n - k)
-        {
-            int right_val = nums[right++];//1,2,3,4,3,2,5
-            if(right - left + 1 == k)
-            {
-                int ltmp = left;
-                int rtmp = right;
-                for(;ltmp < rtmp;++ltmp)
-                {
-                    if (nums[ltmp] > nums[ltmp + 1])
-                    {
-                        ans.push_back(-1);
-                        break;
-                    }
-                }
-                if (ltmp == rtmp && nums[rtmp - 1] < nums[rtmp])
-                {
-                    ans.push_back(nums[rtmp]);
-                }
+    NeighborSum(vector<vector<int>>& grid) : _grid(grid) {}
 
-                ++left;
-                right = left;
+    int adjacentSum(int value) {
+        int ans = 0;
+        pair<int, int> p = FindPos(value);
+        int x = p.first;
+        int y = p.second;
+        for (int i = 0; i < 4; ++i) {
+            if (x > 0 && Ad_next[i][0] == -1) {
+                ans += _grid[x + Ad_next[i][0]][y];
             }
-           
+            if (x < 0 && Ad_next[i][0] == 1)
+            {
+                ans += _grid[x + Ad_next[i][0]][y];
+            }
+            if(y > 0 && Ad_next[i][1] == -1)
+            {
+                ans += _grid[x][y + Ad_next[i][1]];
+            }
+            if(y < 0 && Ad_next[i][1] == 1)
+            {
+                ans += _grid[x][y + Ad_next[i][1]];
+            }
         }
         return ans;
+    }
+
+    int diagonalSum(int value) {
+        int ans = 0;
+        pair<int, int> p = FindPos(value);
+        int x = p.first;
+        int y = p.second;
+        return ans;
+    }
+    pair<int, int> FindPos(int value) {
+        for (int i = 0; i < _grid.size(); ++i) {
+            for (int j = 0; j < _grid[0].size(); ++j) {
+                if (value == _grid[i][j]) {
+                    return {i, j};
+                }
+            }
+        }
+        return {};
     }
 };
 
 int main()
 {
-
-	vector<int> nums = { 1,2,3,4,3,2,5};
-	int k = 3;
-	Solution s;
-	auto ans = s.resultsArray(nums, k);
-	for (auto& x : ans)
-	{
-		cout << x << endl;
-	}
+    vector<vector<int>> vec = { { 0,1,2 }, { 3,4,5 }, { 6,7,8 } };
+    NeighborSum s(vec);
+    cout << s.adjacentSum(1) << endl;
+    cout << s.adjacentSum(4) << endl ;
 }
+/**
+* Your NeighborSum object will be instantiated and called as such:
+* NeighborSum* obj = new NeighborSum(grid);
+* int param_1 = obj->adjacentSum(value);
+* int param_2 = obj->diagonalSum(value);
+*/
