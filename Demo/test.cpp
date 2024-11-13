@@ -1029,16 +1029,44 @@ public:
     }
 };
 
-int main()
-{
-    vector<vector<int>> vec = { { 0,1,2 }, { 3,4,5 }, { 6,7,8 } };
-    NeighborSum s(vec);
-    cout << s.adjacentSum(1) << endl;
-    cout << s.adjacentSum(4) << endl ;
-}
+//int main()
+//{
+//    vector<vector<int>> vec = { { 0,1,2 }, { 3,4,5 }, { 6,7,8 } };
+//    NeighborSum s(vec);
+//    cout << s.adjacentSum(1) << endl;
+//    cout << s.adjacentSum(4) << endl ;
+//}
 /**
 * Your NeighborSum object will be instantiated and called as such:
 * NeighborSum* obj = new NeighborSum(grid);
 * int param_1 = obj->adjacentSum(value);
 * int param_2 = obj->diagonalSum(value);
 */
+
+class Solution {
+public:
+    int countKConstraintSubstrings(string s, int k) {
+        int left = 0, right = 0;
+        int res = 0;
+        int n = s.size();
+        int cnt[2] = {0};
+
+        while (right < n) {
+            ++cnt[s[right++] - '0'];
+
+            while ((cnt[0] > k) && (cnt[1] > k)) {
+                --cnt[s[left++] - '0'];
+            }
+
+            res += right - left;
+        }
+
+        return res;
+    }
+};
+
+int main() {
+    Solution sol;
+
+    return 0;
+}
