@@ -699,6 +699,8 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <cstdlib>
@@ -975,98 +977,166 @@ using namespace std;
 //	}
 //}
 
+//
+//
+//class NeighborSum {
+//    vector<vector<int>> _grid;
+//    vector<vector<int>> Ad_next = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+//    vector<vector<int>> Di_next = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
+//
+//public:
+//    NeighborSum(vector<vector<int>>& grid) : _grid(grid) {}
+//
+//    int adjacentSum(int value) {
+//        int ans = 0;
+//        pair<int, int> p = FindPos(value);
+//        int x = p.first;
+//        int y = p.second;
+//        for (int i = 0; i < 4; ++i) {
+//            if (x > 0 && Ad_next[i][0] == -1) {
+//                ans += _grid[x + Ad_next[i][0]][y];
+//            }
+//            if (x < 0 && Ad_next[i][0] == 1)
+//            {
+//                ans += _grid[x + Ad_next[i][0]][y];
+//            }
+//            if(y > 0 && Ad_next[i][1] == -1)
+//            {
+//                ans += _grid[x][y + Ad_next[i][1]];
+//            }
+//            if(y < 0 && Ad_next[i][1] == 1)
+//            {
+//                ans += _grid[x][y + Ad_next[i][1]];
+//            }
+//        }
+//        return ans;
+//    }
+//
+//    int diagonalSum(int value) {
+//        int ans = 0;
+//        pair<int, int> p = FindPos(value);
+//        int x = p.first;
+//        int y = p.second;
+//        return ans;
+//    }
+//    pair<int, int> FindPos(int value) {
+//        for (int i = 0; i < _grid.size(); ++i) {
+//            for (int j = 0; j < _grid[0].size(); ++j) {
+//                if (value == _grid[i][j]) {
+//                    return {i, j};
+//                }
+//            }
+//        }
+//        return {};
+//    }
+//};
+//
+////int main()
+////{
+////    vector<vector<int>> vec = { { 0,1,2 }, { 3,4,5 }, { 6,7,8 } };
+////    NeighborSum s(vec);
+////    cout << s.adjacentSum(1) << endl;
+////    cout << s.adjacentSum(4) << endl ;
+////}
+///**
+//* Your NeighborSum object will be instantiated and called as such:
+//* NeighborSum* obj = new NeighborSum(grid);
+//* int param_1 = obj->adjacentSum(value);
+//* int param_2 = obj->diagonalSum(value);
+//*/
+//
+//class Solution {
+//public:
+//    int countKConstraintSubstrings(string s, int k) {
+//        int left = 0, right = 0;
+//        int res = 0;
+//        int n = s.size();
+//        int cnt[2] = {0};
+//
+//        while (right < n) {
+//            ++cnt[s[right++] - '0'];
+//
+//            while ((cnt[0] > k) && (cnt[1] > k)) {
+//                --cnt[s[left++] - '0'];
+//            }
+//
+//            res += right - left;
+//        }
+//
+//        return res;
+//    }
+//};
+//
+//int main() {
+//    Solution sol;
+//
+//    return 0;
+//}
 
 
-class NeighborSum {
-    vector<vector<int>> _grid;
-    vector<vector<int>> Ad_next = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
-    vector<vector<int>> Di_next = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
-
-public:
-    NeighborSum(vector<vector<int>>& grid) : _grid(grid) {}
-
-    int adjacentSum(int value) {
-        int ans = 0;
-        pair<int, int> p = FindPos(value);
-        int x = p.first;
-        int y = p.second;
-        for (int i = 0; i < 4; ++i) {
-            if (x > 0 && Ad_next[i][0] == -1) {
-                ans += _grid[x + Ad_next[i][0]][y];
-            }
-            if (x < 0 && Ad_next[i][0] == 1)
-            {
-                ans += _grid[x + Ad_next[i][0]][y];
-            }
-            if(y > 0 && Ad_next[i][1] == -1)
-            {
-                ans += _grid[x][y + Ad_next[i][1]];
-            }
-            if(y < 0 && Ad_next[i][1] == 1)
-            {
-                ans += _grid[x][y + Ad_next[i][1]];
-            }
-        }
-        return ans;
-    }
-
-    int diagonalSum(int value) {
-        int ans = 0;
-        pair<int, int> p = FindPos(value);
-        int x = p.first;
-        int y = p.second;
-        return ans;
-    }
-    pair<int, int> FindPos(int value) {
-        for (int i = 0; i < _grid.size(); ++i) {
-            for (int j = 0; j < _grid[0].size(); ++j) {
-                if (value == _grid[i][j]) {
-                    return {i, j};
-                }
-            }
-        }
-        return {};
-    }
-};
-
+//int func()
+//{
+//	int x = 1;
+//	return x;
+//}
 //int main()
 //{
-//    vector<vector<int>> vec = { { 0,1,2 }, { 3,4,5 }, { 6,7,8 } };
-//    NeighborSum s(vec);
-//    cout << s.adjacentSum(1) << endl;
-//    cout << s.adjacentSum(4) << endl ;
+//	int x = func();
+//	cout << x << endl;
+//
+//	return 0;
 //}
-/**
-* Your NeighborSum object will be instantiated and called as such:
-* NeighborSum* obj = new NeighborSum(grid);
-* int param_1 = obj->adjacentSum(value);
-* int param_2 = obj->diagonalSum(value);
-*/
 
-class Solution {
+class MyStack {
 public:
-    int countKConstraintSubstrings(string s, int k) {
-        int left = 0, right = 0;
-        int res = 0;
-        int n = s.size();
-        int cnt[2] = {0};
+	MyStack(int k) {
+		_capacity = k;
+	}
+	// ½øÕ»
+	bool Push(int x)
+	{
+		if (isFull())
+		{
+			return false;
+		}
+		if (q1.empty())
+		{
+			q2.push(x);
+		}
+		else
+		{
+			q1.push(x);
+		}
+		++_capacity;
+		return true;
+	}
+	// ³öÕ»
+	// »ñÈ¡Õ»¶¥ÔªËØ
+	int Front()
+	{
 
-        while (right < n) {
-            ++cnt[s[right++] - '0'];
-
-            while ((cnt[0] > k) && (cnt[1] > k)) {
-                --cnt[s[left++] - '0'];
-            }
-
-            res += right - left;
-        }
-
-        return res;
-    }
+	}
+	// ÅÐ¿Õ
+	bool isEmpty()
+	{
+		return _capacity == 0;
+	}
+	// ÅÐÂú
+	bool isFull()
+	{
+		return q1.size() == _capacity || q2.size() == _capacity;
+	}
+	MyStack() {}
+private:
+	queue<int> q1;
+	queue<int> q2;
+	int _capacity;
 };
 
-int main() {
-    Solution sol;
+int main()
+{
+	MyStack s1;
+	s1.Push(1);
 
-    return 0;
+	return 0;
 }
