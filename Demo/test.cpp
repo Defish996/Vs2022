@@ -1086,57 +1086,90 @@ using namespace std;
 //
 //	return 0;
 //}
+//
+//class MyStack {
+//public:
+//	MyStack(int k) {
+//		_capacity = k;
+//	}
+//	// ½øÕ»
+//	bool Push(int x)
+//	{
+//		if (isFull())
+//		{
+//			return false;
+//		}
+//		if (q1.empty())
+//		{
+//			q2.push(x);
+//		}
+//		else
+//		{
+//			q1.push(x);
+//		}
+//		++_capacity;
+//		return true;
+//	}
+//	// ³öÕ»
+//	// »ñÈ¡Õ»¶¥ÔªËØ
+//	int Front()
+//	{
+//
+//	}
+//	// ÅÐ¿Õ
+//	bool isEmpty()
+//	{
+//		return _capacity == 0;
+//	}
+//	// ÅÐÂú
+//	bool isFull()
+//	{
+//		return q1.size() == _capacity || q2.size() == _capacity;
+//	}
+//	MyStack() {}
+//private:
+//	queue<int> q1;
+//	queue<int> q2;
+//	int _capacity;
+//};
+//
+//int main()
+//{
+//	MyStack s1;
+//	s1.Push(1);
+//
+//	return 0;
+//}
 
-class MyStack {
+class Solution {
 public:
-	MyStack(int k) {
-		_capacity = k;
-	}
-	// ½øÕ»
-	bool Push(int x)
-	{
-		if (isFull())
-		{
-			return false;
-		}
-		if (q1.empty())
-		{
-			q2.push(x);
-		}
-		else
-		{
-			q1.push(x);
-		}
-		++_capacity;
-		return true;
-	}
-	// ³öÕ»
-	// »ñÈ¡Õ»¶¥ÔªËØ
-	int Front()
-	{
-
-	}
-	// ÅÐ¿Õ
-	bool isEmpty()
-	{
-		return _capacity == 0;
-	}
-	// ÅÐÂú
-	bool isFull()
-	{
-		return q1.size() == _capacity || q2.size() == _capacity;
-	}
-	MyStack() {}
-private:
-	queue<int> q1;
-	queue<int> q2;
-	int _capacity;
+    int numFriendRequests(vector<int>& ages) {
+        int ans = 0;
+        int n = ages.size();
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                double x = ages[i];
+                double y = ages[j];
+                if (y <= 0.5 * x + 7 || y > x || y > 100 && x < 100) {
+                    ++ans;
+                } 
+                else {
+                    swap(x, y);
+                    if (y <= 0.5 * x + 7 || y > x || y > 100 && x < 100) {
+                        ++ans;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
 };
 
 int main()
 {
-	MyStack s1;
-	s1.Push(1);
-
-	return 0;
+    Solution s;
+    vector<int> vec = { 16, 16 };
+    int n = s.numFriendRequests(vec);
+    cout << n;
+    return 0;
 }
